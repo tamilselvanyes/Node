@@ -8,10 +8,8 @@ dotenv.config();
 app.use(express.json());
 
 const PORT = 3000;
-// const MONGO_URL = "mongodb://localhost";
 const MONGO_URL = process.env.MONGO_URL;
 
-// mongodb+srv://moviesdatabase:<password>@cluster0.5z5jl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority--
 const client = await createConnection();
 
 //movies[req.params.id]
