@@ -7,7 +7,7 @@ dotenv.config();
 //middleware --> Intercept --> Body to JSON
 app.use(express.json());
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 
 const client = await createConnection();
