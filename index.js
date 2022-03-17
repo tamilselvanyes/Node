@@ -2,6 +2,13 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 import cors from "cors";
+import {
+  getAllmovies,
+  createMovies,
+  updateMovieByid,
+  deleteMovieByid,
+  getMovieByid,
+} from "./helper.js";
 
 const app = express();
 dotenv.config();
@@ -13,16 +20,12 @@ app.use(cors());
 const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 
-const client = await createConnection();
+export const client = await createConnection();
 
 //movies[req.params.id]
 //find will retun cursor only so we have to convert into an array using toArray() method
 app.get("/movies", async (req, res) => {
-  const movies = await client
-    .db("b30wd")
-    .collection("movies")
-    .find({})
-    .toArray();
+  const movies = await getAllmovies();
   //console.log(movies);
   res.send(movies);
 });
@@ -34,10 +37,7 @@ app.get("/", function (req, res) {
 app.get("/movies/:id", async (req, res) => {
   const id = req.params.id;
   console.log(id);
-  const movie = await client
-    .db("b30wd")
-    .collection("movies")
-    .findOne({ id: id });
+  const movie = await getMovieByid(id);
   movie
     ? res.send(movie)
     : res.status(404).send({ message: "No such movie found" });
@@ -46,10 +46,7 @@ app.get("/movies/:id", async (req, res) => {
 app.delete("/movies/:id", async (req, res) => {
   const id = req.params.id;
   console.log(id);
-  const result = await client
-    .db("b30wd")
-    .collection("movies")
-    .deleteOne({ id: id });
+  const result = await deleteMovieByid(id);
   res.send(result);
 });
 
@@ -62,10 +59,7 @@ app.put("/movies/:id", async function (request, response) {
   const { id } = request.params;
   const updateData = request.body;
 
-  const result = await client
-    .db("b30wd")
-    .collection("movies")
-    .updateOne({ id: id }, { $set: updateData });
+  const result = await updateMovieByid(id, updateData);
   response.send(result);
 });
 
@@ -87,7 +81,7 @@ app.post("/movies", async function (request, response) {
   // db.movies.insertMany(data)
   const data = request.body;
   console.log(data);
-  const result = await client.db("b30wd").collection("movies").insertMany(data);
+  const result = await createMovies(data);
   response.send(result);
 });
 
