@@ -1,11 +1,14 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import cors from "cors";
+
 const app = express();
 dotenv.config();
 
 //middleware --> Intercept --> Body to JSON
 app.use(express.json());
+app.use(cors());
 
 const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
