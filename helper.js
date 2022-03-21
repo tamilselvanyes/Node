@@ -26,3 +26,7 @@ export function getMovieByid(id) {
 export function createUser(data) {
   return client.db("b30wd").collection("users").insertOne(data);
 }
+
+export function getUserByName(username) {
+  return client.db("b30wd").collection("users").findOne({ username: username });
+}

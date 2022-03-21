@@ -6,12 +6,13 @@ import {
   deleteMovieByid,
   getMovieByid,
 } from "../helper.js";
+import { auth } from "../middleware/auth.js";
 
 const router = express.Router();
 export const moviesRouter = router;
 //movies[req.params.id]
 //find will retun cursor only so we have to convert into an array using toArray() method
-router.get("", async (req, res) => {
+router.get("", auth, async (req, res) => {
   const movies = await getAllmovies();
   //console.log(movies);
   res.send(movies);
