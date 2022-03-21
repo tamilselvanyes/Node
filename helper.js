@@ -22,3 +22,7 @@ export function deleteMovieByid(id) {
 export function getMovieByid(id) {
   return client.db("b30wd").collection("movies").findOne({ id: id });
 }
+
+export function createUser(data) {
+  return client.db("b30wd").collection("users").insertOne(data);
+}
