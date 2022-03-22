@@ -1,4 +1,5 @@
 import { client } from "./index.js";
+import { ObjectId } from "mongodb";
 
 export function getAllmovies() {
   return client.db("b30wd").collection("movies").find({}).toArray();
@@ -12,15 +13,21 @@ export function updateMovieByid(id, updateData) {
   return client
     .db("b30wd")
     .collection("movies")
-    .updateOne({ id: id }, { $set: updateData });
+    .updateOne({ _id: ObjectId(id) }, { $set: updateData });
 }
 
 export function deleteMovieByid(id) {
-  return client.db("b30wd").collection("movies").deleteOne({ id: id });
+  return client
+    .db("b30wd")
+    .collection("movies")
+    .deleteOne({ _id: ObjectId(id) });
 }
 
 export function getMovieByid(id) {
-  return client.db("b30wd").collection("movies").findOne({ id: id });
+  return client
+    .db("b30wd")
+    .collection("movies")
+    .findOne({ _id: ObjectId(id) });
 }
 
 export function createUser(data) {
